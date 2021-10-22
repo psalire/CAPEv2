@@ -1,4 +1,17 @@
+### [21-10-2021]
+* Monitor update: Monitor fix for scan crashes in e.g. Equation Editor/Cmd (thanks Will)
+
+### [19-10-2021]
+* Monitor update: Monitor fix for NtSuspendThread hook issue (thanks Intezer)
+
+### CENTS - Configuration Extraction to Network Traffic Signatures
+* For full description [read](https://github.com/kevoreilly/CAPEv2/pull/605)
+
+### [17-10-2021]
+* Monitor update: Win10x64 deadlock fix & other misc fixes (see capemon repo for details)
+
 ### [2-10-2021] Hacktoberfest
+* Add test module to extraction framework to ensure that they are loaded properly: CAPE, MWCP, RATDecoders, Malduck
 * Monitor update: Fixes/hardening of dumps (PE & memory) and yara scans (e.g. SquirrelWaffle)
 * Handled errors that was giving problem to use `init_yara` sometime, used in Qakbot extractor
     * `OSError: /opt/CAPEv2/lib/cuckoo/common/blzpack_lib.so: failed to map segment from shared object`

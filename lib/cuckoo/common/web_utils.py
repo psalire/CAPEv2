@@ -856,6 +856,7 @@ search_term_map = {
     "crc32": ("target.file.crc32", "dropped.crc32", "procdump.crc32", "CAPE.payloads.crc32"),
     "file": "behavior.summary.files",
     "command": "behavior.summary.executed_commands",
+    "configs": "CAPE.configs",
     "resolvedapi": "behavior.summary.resolved_apis",
     "key": "behavior.summary.keys",
     "mutex": "behavior.summary.mutexes",
@@ -986,7 +987,12 @@ def perform_search(term, value):
         return None
 
     if term == "payloads" and len(value) in (32, 40, 64, 128):
-        search_term_map[term] = search_term_map[term] + hash_len.get(len(value))
+        search_term_map[term] = "CAPE.payloads." + hash_len.get(len(value))
+
+    elif term == "configs":
+        # check if family name is string only maybe?
+        search_term_map[term] = f"CAPE.configs.{value}"
+        query_val = {"$exists":True}
 
     if repconf.mongodb.enabled and query_val:
         if type(search_term_map[term]) is str:
