@@ -1456,14 +1456,18 @@ def file(request, category, task_id, dlfile):
     # Just for suricata dropped files currently
     elif category == "zip":
         file_name = "files.zip"
-        path = os.path.join(CUCKOO_ROOT, "storage", "analyses", task_id, "logs", "files.zip")
+        path = os.path.join(CUCKOO_ROOT, "storage", "analyses", str(task_id), "logs", "files.zip")
         cd = "application/zip"
     elif category == "suricata":
-        path = os.path.join(CUCKOO_ROOT, "storage", "analyses", task_id, "logs", "files", file_name)
+        path = os.path.join(CUCKOO_ROOT, "storage", "analyses", str(task_id), "logs", "files", file_name)
     elif category == "rtf":
-        path = os.path.join(CUCKOO_ROOT, "storage", "analyses", task_id, "rtf_objects", file_name)
+        path = os.path.join(CUCKOO_ROOT, "storage", "analyses", str(task_id), "rtf_objects", file_name)
     elif category == "tlskeys":
         path = os.path.join(CUCKOO_ROOT, "storage", "analyses", str(task_id), "tlsdump", "tlsdump.log")
+    elif category == "evtx":
+        path = os.path.join(CUCKOO_ROOT, "storage", "analyses", str(task_id), "evtx", "evtx.zip")
+        file_name = f"{task_id}_evtx.zip"
+        cd = "application/zip"
     else:
         return render(request, "error.html", {"error": "Category not defined"})
 
@@ -1636,7 +1640,7 @@ def full_memory_dump_file(request, analysis_number):
         return render(request, "error.html", {"error": "File not found".format(os.path.basename(file_path))})
     if filename:
         content_type = "application/octet-stream"
-        response = StreamingHttpResponse(FileWrapper(open(file_path), 8192), content_type=content_type)
+        response = StreamingHttpResponse(FileWrapper(open(file_path, "rb"), 8192), content_type=content_type)
         response["Content-Length"] = os.path.getsize(file_path)
         response["Content-Disposition"] = "attachment; filename=%s" % filename
         return response
